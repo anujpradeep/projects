@@ -1,0 +1,45 @@
+Name: Anuj Pradeep
+ID: 1578030
+Name: Hetul Patel
+ID: 1571187
+CMPUT 274 FALL19
+
+Assignment 2: encryption communication part 2
+
+Included files:
+	encryption_communication_part2.cpp
+	makefile
+	README
+
+Accessories:
+	- 2 Arduino Mega Board (AMG)
+	- Wires
+	- 1 resistor
+	- breadboard
+
+Wiring Instructions:
+	Connect digital port 13 of one AMG to GRD, which will be your client.
+	Connect digital port 13 of the other AMG to 5V through a resistor.
+
+Running  Instructions:
+	1.Connect both arduinos to PC using 2 A-B style USB cables. Ensure that the Arduino is using the proper serial port (port 0 and port 1).
+	2.In the directory containing the files sencryption_communication_part2.cpp and a Makefile, use the command "make upload-0 && serial-mon-0" on one command prompt and "make upload-1 && serial-mon-1" on the other one to upload the code to the Arduinos and access the serial monitors.
+
+Notes and Assumptions:
+	We used part 1 code provided to us on eclass.
+		uint32_t RandKbit(int k)
+			-generates a rand k bit, at first we use kbit as a uint16_t k bit doesn't go over 2^16. we returned it as a uint32_t because we needed p and q to be 32 bits because it didn't work for us with it was 16.
+		uint32_t gcd(uint32_t n, uint32_t p)
+			- This function uses the Euclid code discussed in class. The function will return the gcd of n and p
+		uint32_t Primality(uint32_t k_bit,int k)
+			- Checks if p and q are primes and are between their appropriate bounds, and if it isn't it will increment it until it is a prime.
+		uint32_t generateN (uint32_t& n)
+			- Generates p and q using RandKbit()and checks them with Primality. Then calculates n and phi(n) and returns phi(n) and n is returned by reference.
+		uint32_t generateD(uint32_t e, uint32_t phin)
+			- Generates d using Euclid's Extended Algorithm. The function checks if the r[0]*s[i-1]+r[1]*t[i-1]=gcd(r[0],r[1]) which equals 1 and it also checks if d is within the appropriate bounds. After that it will return d. if d passes all the checks it will be s[i-1] but if it fails 0 will be returned instead.
+		uint32_t calculateED(uint32_t phi,uint32_t& mye)
+			- We generated e using RandKbit() and then incremented it until the gcd of e and phi(n) was 1 and e was less than phin. and when these conditions were true, it will then call generateD() and assign it to the variable d. if d is not 0 then an appropriate d was assigned for the corresponding e and phi(n).  The reason why we decided to find a random e and increment that each time was to make it more random of an e as it will be more efficient than to keep calling RandKbit() how many times needed.
+		void handShake(uint32_t n, uint32_t mye, uint32_t& e, uint32_t& m)
+			- Used the states declared on the top of the program to decide when and what to send to the other Arduino. we decided to write the characters A and C ourselves but used the functions provided to us for the sending of keys.
+		void displaykeys(uint32_t n,uint32_t mye,uint32_t d,uint32_t e,uint32_t m)
+			-Displays the keys of each arduino and the public key and modulus of the other arduino. This function is not needed but provides that the keys have been successfully sent.

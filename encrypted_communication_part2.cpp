@@ -1,9 +1,3 @@
-/*
-    Anuj Pradeep    1578030
-    Hetul Patel     1571187
-    Encrypted Arduino Communication Part 2
-    CMPUT 274 Fall 2019
-*/
 #include <Arduino.h>
 #include <math.h>
 
